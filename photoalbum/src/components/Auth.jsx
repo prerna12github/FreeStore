@@ -17,12 +17,14 @@ const Auth=({onSuccess})=>{
             },
           });
       }, [onSuccess]);
-       const SignIn = () => {
+       const signIn = () => {
     tokenClient.current?.requestAccessToken();
   };
 
+  
+
     return(
-        {SignIn}
+        {signIn}
     )
 };
 export default Auth
