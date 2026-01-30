@@ -1,56 +1,38 @@
-import React, { useRef, useState } from "react";
-import Cropper from "react-cropper";
-import "cropperjs/dist/cropper.css";
+import { useRef, useState } from "react";
+import ReactCrop from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
+import CropPreview from "./CropPreview";
 
 const Upload = () => {
   const fileInputRef = useRef(null);
-  const cropperRef = useRef(null);
+  const imgRef = useRef(null);
 
-  const [image, setImage] = useState(null);
-  const [croppedImage, setCroppedImage] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [crop, setCrop] = useState({
+    unit: "%",
+    width: 50,
+    aspect: 1, // square
+  });
+  const [completedCrop, setCompletedCrop] = useState(null);
 
-  // Open file picker
-  const openFilePicker = () => {
-    fileInputRef.current.click();
-  };
+  const openFilePicker = () => fileInputRef.current.click();
 
-  // When image is selected
   const onFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = () => {
-      setImage(reader.result); // Base64
-      setCroppedImage(null);
-    };
+    reader.onload = () => setImageSrc(reader.result);
     reader.readAsDataURL(file);
   };
 
-  // Crop image
-  const cropImage = () => {
-    const cropper = cropperRef.current?.cropper;
-    if (!cropper) return;
-
-    const canvas = cropper.getCroppedCanvas({
-      width: 512,
-      height: 512,
-      imageSmoothingQuality: "high",
-    });
-
-    if (!canvas) return;
-
-    const croppedBase64 = canvas.toDataURL("image/png");
-    setCroppedImage(croppedBase64);
-  };
-
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-900 gap-4">
+    <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center gap-4 p-4">
       <input
         type="file"
         accept="image/*"
-        ref={fileInputRef}
         hidden
+        ref={fileInputRef}
         onChange={onFileChange}
       />
 
@@ -61,41 +43,29 @@ const Upload = () => {
         Upload Image
       </button>
 
-      {image && (
-        <>
-          <Cropper
-            src={image}
-            style={{ height: 400, width: 300 }}
-            initialAspectRatio={1}
-            aspectRatio={1}
-            guides={true}
-            viewMode={1}
-            background={false}
-            responsive={true}
-            autoCropArea={1}
-            checkOrientation={false}
-            ref={cropperRef}
-          />
-
-          <button
-            onClick={cropImage}
-            className="px-6 py-2 bg-purple-600 text-white rounded-lg"
+      {imageSrc && (
+        <div className="max-w-md w-full">
+          <ReactCrop
+            crop={crop}
+            onChange={(_, percentCrop) => setCrop(percentCrop)}
+            onComplete={(c) => setCompletedCrop(c)}
+            aspect={1}
           >
-            Crop
-          </button>
-        </>
-      )}
-
-      {croppedImage && (
-        <div className="mt-4 text-center">
-          <p className="text-gray-300 mb-2">Cropped Image</p>
-          <img
-            src={croppedImage}
-            alt="cropped"
-            className="w-40 h-40 rounded-lg border"
-          />
+            <img
+              ref={imgRef}
+              src={imageSrc}
+              alt="Upload"
+              className="max-h-[400px]"
+            />
+          </ReactCrop>
         </div>
       )}
+
+      {/* Canvas Preview */}
+      <CropPreview
+        img={imgRef.current}
+        crop={completedCrop}
+      />
     </div>
   );
 };
