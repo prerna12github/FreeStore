@@ -21,7 +21,6 @@ const Auth=({onSuccess})=>{
     tokenClient.current?.requestAccessToken();
   };
 
-  
 
     return(
         {signIn}

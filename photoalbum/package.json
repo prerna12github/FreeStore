@@ -12,8 +12,11 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.91.0",
     "@tailwindcss/vite": "^4.1.18",
+    "cropperjs": "^1.5.13",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-cropper": "^2.0.0",
+    "react-dom": "^19.2.0",
+    "react-images-upload": "^1.2.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
