@@ -1,23 +1,38 @@
-import { useEffect, useRef } from 'react';
-import { canvasPreview } from './canvasPreview';
+import { useEffect, useRef } from "react";
 
-export default function CropPreview({ img, crop }) {
+const CropPreview = ({ img, crop, onCropComplete }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    if (!crop?.width || !crop?.height || !img || !canvasRef.current) {
-      return;
-    }
+    if (!img || !crop?.width || !crop?.height) return;
 
-    canvasPreview(img, canvasRef.current, crop, 1, 0);
-  }, [img, crop]);
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
-  if (!crop || !img) return null;
+    const scaleX = img.naturalWidth / img.width;
+    const scaleY = img.naturalHeight / img.height;
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="border rounded-lg mt-4"
-    />
-  );
-}
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+
+    ctx.drawImage(
+      img,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    // ✅ Convert canvas to Base64
+    const base64 = canvas.toDataURL("image/png");
+    onCropComplete(base64);
+  }, [img, crop, onCropComplete]);
+
+  return <canvas ref={canvasRef} className="hidden" />;
+};
+
+export default CropPreview;
