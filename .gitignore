@@ -3,7 +3,7 @@ logs
 *.log
 *log*
 
-node_modules
+*/node_modules*/
 dist
 dist-ssr
 *.local
@@ -19,3 +19,6 @@ dist-ssr
 *.sln
 *.sw?
 *.env*
+
+# Local Netlify folder
+.netlify
