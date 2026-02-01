@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./index.css";
-import Dashboard from "./components/dashboard";
-import Login from "./components/login";
-import Auth from "./components/Auth";
-import Upload from "./components/Upload";
+import Dashboard from "@/components/Dashboard";
+import Login from "@/components/Login";
+import Auth from "@/components/Auth";
+import Upload from "@/components/Upload";
 
 const App = () => {
   const [accessToken, setAccessToken] = useState(() => {
@@ -18,11 +18,10 @@ const App = () => {
     localStorage.setItem("accessToken", JSON.stringify(accessToken));
   }, [accessToken]);
 
-   const { signIn } = Auth({
+  const { signIn } = Auth({
     onSuccess: setAccessToken,
   });
 
-
-  return !accessToken ? <Login signIn={signIn}/> : < Dashboard/>;
+  return !accessToken ? <Login signIn={signIn} /> : <Dashboard />;
 };
 export default App;

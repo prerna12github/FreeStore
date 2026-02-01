@@ -24,7 +24,7 @@ const CropPreview = ({ img, crop, onCropComplete }) => {
       0,
       0,
       crop.width,
-      crop.height
+      crop.height,
     );
 
     // ✅ Convert canvas to Base64

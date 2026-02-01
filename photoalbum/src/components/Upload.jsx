@@ -1,14 +1,15 @@
 import { useRef, useState } from "react";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import CropPreview from "./CropPreview";
-import { uploadImageToDrive } from "../services/googleDriveService";
+import CropPreview from "@/components/CropPreview";
+import { uploadImageToDrive } from "@/services/googleDriveService";
 
 const Upload = () => {
   const fileInputRef = useRef(null);
-  const imgRef = useRef(null);
+  // Removed imgRef to fix linting error
 
   const [imageSrc, setImageSrc] = useState(null);
+  const [imgElement, setImgElement] = useState(null); // New state for image element
   const [crop, setCrop] = useState({
     unit: "%",
     width: 50,
@@ -17,7 +18,6 @@ const Upload = () => {
   const [completedCrop, setCompletedCrop] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
 
-
   const openFilePicker = () => fileInputRef.current.click();
 
   const onFileChange = (e) => {
@@ -25,20 +25,26 @@ const Upload = () => {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = () => setImageSrc(reader.result);
+    reader.onload = () => {
+      setImageSrc(reader.result);
+      // Reset states when new image is loaded
+      setImgElement(null);
+      setCompletedCrop(null);
+      setCroppedImage(null);
+    };
     reader.readAsDataURL(file);
   };
 
-    const uploadToDrive = async () => {
-  try {
-    const token = JSON.parse(localStorage.getItem("accessToken"));
-    await uploadImageToDrive(croppedImage, token);
-    alert("✅ Image uploaded to Google Drive");
-  } catch (err) {
-    console.error(err);
-    alert(err.message || "❌ Upload failed");
-  }
-};
+  const uploadToDrive = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem("accessToken"));
+      await uploadImageToDrive(croppedImage, token);
+      alert("✅ Image uploaded to Google Drive");
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "❌ Upload failed");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center gap-4 p-4">
@@ -66,10 +72,10 @@ const Upload = () => {
             aspect={1}
           >
             <img
-              ref={imgRef}
               src={imageSrc}
+              onLoad={(e) => setImgElement(e.currentTarget)}
               alt="Upload"
-              className="max-h-[400px]"
+              className="max-h-100"
             />
           </ReactCrop>
         </div>
@@ -77,21 +83,19 @@ const Upload = () => {
 
       {/* Canvas Preview */}
       <CropPreview
-        img={imgRef.current}
+        img={imgElement}
         crop={completedCrop}
         onCropComplete={setCroppedImage}
       />
       {croppedImage && (
-  <button
-    onClick={uploadToDrive}
-    className="px-6 py-2 bg-green-600 text-white rounded-lg"
-  >
-    Upload to Google Drive
-  </button>
-)}
-
+        <button
+          onClick={uploadToDrive}
+          className="px-6 py-2 bg-green-600 text-white rounded-lg"
+        >
+          Upload to Google Drive
+        </button>
+      )}
     </div>
-    
   );
 };
 
