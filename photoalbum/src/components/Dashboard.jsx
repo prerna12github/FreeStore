@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Upload from "./Upload";
+import Upload from "@/components/Upload";
 
 const Dashboard = () => {
   const [showUpload, setShowUpload] = useState(false);
@@ -14,10 +14,7 @@ const Dashboard = () => {
           </h2>
 
           <div className="px-4 py-2">
-            <button
-              className="text-white"
-              onClick={() => setShowUpload(true)}
-            >
+            <button className="text-white" onClick={() => setShowUpload(true)}>
               Upload Photos
             </button>
           </div>

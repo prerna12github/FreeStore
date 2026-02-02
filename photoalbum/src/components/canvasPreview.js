@@ -3,8 +3,6 @@ export function canvasPreview(
   image,
   canvas,
   crop,
-  scale = 1,
-  rotate = 0
 ) {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
