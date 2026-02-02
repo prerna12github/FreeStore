@@ -1,4 +1,8 @@
 import { base64ToBlob } from "../utils/base64ToBlob";
+const FOLDER_ID = import.meta.env.VITE_GOOGLE_DRIVE_FOLDER_ID;
+console.log("📁 Folder ID from ENV:", FOLDER_ID);
+
+
 
 export const uploadImageToDrive = async (croppedImage, accessToken) => {
   if (!croppedImage) {
@@ -14,6 +18,7 @@ export const uploadImageToDrive = async (croppedImage, accessToken) => {
   const metadata = {
     name: `cropped_${Date.now()}.png`,
     mimeType: "image/png",
+    parents: [FOLDER_ID],
   };
 
   const formData = new FormData();
