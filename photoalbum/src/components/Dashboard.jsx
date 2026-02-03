@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Upload from "@/components/Upload";
+import Logout from "./Logout";
 
 const Dashboard = () => {
   const [showUpload, setShowUpload] = useState(false);
@@ -20,12 +21,8 @@ const Dashboard = () => {
           </div>
 
           <div className="px-4 py-2">
-            <button className="text-white">View Photos</button>
-          </div>
-
-          <div className="px-4 py-2">
-            <button className="text-white">Sign Out</button>
-          </div>
+           <Logout/>
+        </div>
         </div>
       ) : (
         <Upload />
@@ -33,5 +30,7 @@ const Dashboard = () => {
     </div>
   );
 };
+
+
 
 export default Dashboard;

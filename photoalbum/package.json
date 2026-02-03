@@ -17,7 +17,9 @@
     "react-cropper": "^2.0.0",
     "react-dom": "^19.2.0",
     "react-image-crop": "^11.0.10",
-    "react-images-upload": "^1.2.8"
+    "react-images-upload": "^1.2.8",
+    "react-photo-view": "^1.2.7",
+    "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
