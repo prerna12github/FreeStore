@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import "./index.css";
+import { Routes, Route } from "react-router-dom";
 import Dashboard from "@/components/Dashboard";
 import Login from "@/components/Login";
 import Auth from "@/components/Auth";

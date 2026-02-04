@@ -1,7 +1,9 @@
 import { useRef, useState } from "react";
 import { uploadImageToDrive } from "@/services/googleDriveService";
+import { useNavigate } from "react-router-dom";
 
 const Upload = () => {
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -54,6 +56,9 @@ const Upload = () => {
             alt="Preview"
             className="max-w-md rounded-lg border"
           />
+          
+          
+         
 
           <button
             onClick={uploadToDrive}
@@ -61,10 +66,20 @@ const Upload = () => {
           >
             Upload to Google Drive
           </button>
-        </>
+        
+         
+          <button
+          onClick={()=>navigate("/Dashboard")}
+          className="flex gap-2 px-6 py-2 bg-indigo-600 text-white rounded-lg"
+          >
+            Go to Dashboard
+          </button>
+          </>
       )}
     </div>
   );
 };
 
 export default Upload;
+
+
