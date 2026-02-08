@@ -69,7 +69,7 @@ const Upload = () => {
         
          
           <button
-          onClick={()=>navigate("/Dashboard")}
+          onClick={()=>navigate("/dashboard")}
           className="flex gap-2 px-6 py-2 bg-indigo-600 text-white rounded-lg"
           >
             Go to Dashboard
