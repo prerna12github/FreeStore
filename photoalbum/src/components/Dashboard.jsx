@@ -21,7 +21,7 @@ const Dashboard = () => {
           </div>
 
           <div className="px-4 py-2">
-           <Logout/>
+             <Logout/>
         </div>
         </div>
       ) : (

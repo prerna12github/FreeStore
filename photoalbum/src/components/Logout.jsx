@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 
 const Logout = () => {
@@ -7,12 +7,8 @@ const Logout = () => {
   const handleLogout = () => {
     // Remove auth data
     localStorage.removeItem("accessToken");
-
-    // (optional) remove other stored data
     localStorage.removeItem("user");
-
-    // Redirect to login
-    navigate("/Dashboard");
+    navigate("/login");
   };
   return (
     <button
